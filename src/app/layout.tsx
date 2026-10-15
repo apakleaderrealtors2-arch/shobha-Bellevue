@@ -16,9 +16,9 @@ const body = Outfit({
   display: "swap",
 });
 
-const title = "Bellevue by SOBHA | 3 & 4 Bed Luxury Residences in Feroke, Kozhikode";
-const description =
-  "298 limited-edition 3 and 4 bed luxury residences in Feroke, Kozhikode, with views of the Chaliyar River, Beypore Beach, and the Western Ghats. From 2,243 Sq.Ft. Starting from INR 3.21 Cr.*";
+const title =
+  "Bellevue by SOBHA | Luxury Apartments in Kozhikode (Kozhikkode) | Feroke";
+const description = `Luxury 3 & 4 bed apartments in Feroke, Kozhikode (Kozhikkode), Kerala. 298 residences from 2,243 Sq.Ft., starting INR 3.21 Cr.* Call or WhatsApp ${site.phoneDisplay} for site visits and brochures.`;
 
 const siteUrl = new URL(site.siteUrl);
 const canonicalPath =
@@ -32,16 +32,31 @@ export const metadata: Metadata = {
   },
   description,
   keywords: [
+    "apartments in Kozhikode",
+    "apartments in Kozhikkode",
+    "flats in Kozhikode",
+    "luxury apartments Kozhikode",
+    "3 BHK Kozhikode",
+    "4 BHK Kozhikode",
     "Bellevue by SOBHA",
     "SOBHA Bellevue Kozhikode",
-    "luxury apartments Feroke",
-    "3 BHK flats Kozhikode",
-    "4 BHK flats Kozhikode",
+    "SOBHA Feroke",
     "apartments in Feroke",
+    "Calicut apartments",
     "Chaliyar River residences",
+    site.phoneDisplay,
   ],
-  alternates: { canonical: canonicalPath },
-  robots: { index: true, follow: true },
+  alternates: {
+    canonical: canonicalPath,
+    types: {
+      "text/plain": [{ url: "/llms.txt", title: "llms.txt" }],
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
   openGraph: {
     title,
     description,
@@ -54,7 +69,7 @@ export const metadata: Metadata = {
         url: site.hero,
         width: 1200,
         height: 630,
-        alt: "Front elevation of Bellevue by SOBHA",
+        alt: "Bellevue by SOBHA twin towers in Feroke, Kozhikode",
       },
     ],
   },
@@ -63,6 +78,9 @@ export const metadata: Metadata = {
     title,
     description,
     images: [site.hero],
+  },
+  other: {
+    "ai-summary": `Bellevue by SOBHA — luxury apartments in Feroke, Kozhikode/Kozhikkode. Contact ${site.phoneDisplay}.`,
   },
 };
 

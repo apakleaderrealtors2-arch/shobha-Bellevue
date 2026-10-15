@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { DownloadButton } from "@/components/DownloadButton";
 import { AmenityCard } from "@/components/AmenityCard";
+import { ResidenceCard } from "@/components/ResidenceCard";
 
 export default function HomePage() {
   return (
@@ -139,41 +140,15 @@ export default function HomePage() {
               pricing, crafted for light and view.
             </p>
             <div className="mt-12 grid gap-8 md:grid-cols-2">
-              {site.residences.map((home) => (
-                <article
+              {site.residences.map((home, index) => (
+                <ResidenceCard
                   key={home.title}
-                  className="overflow-hidden rounded-2xl bg-white shadow-[0_1px_0_rgba(0,0,0,0.04)]"
-                >
-                  <div className="relative aspect-[16/11]">
-                    <Image
-                      src={home.image}
-                      alt={home.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width:768px) 100vw, 50vw"
-                    />
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <h3 className="font-display text-3xl text-ink">
-                      {home.title}
-                    </h3>
-                    <p className="mt-2 text-teal">{home.size}</p>
-                    <ul className="mt-5 space-y-2 text-sm text-mute">
-                      {home.points.map((p) => (
-                        <li key={p} className="flex gap-2">
-                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-teal" />
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href="#enquire"
-                      className="mt-6 inline-block text-sm font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-teal"
-                    >
-                      Request details
-                    </a>
-                  </div>
-                </article>
+                  title={home.title}
+                  size={home.size}
+                  image={home.image}
+                  points={home.points}
+                  index={index}
+                />
               ))}
             </div>
           </div>
@@ -316,6 +291,12 @@ export default function HomePage() {
                   WhatsApp
                 </a>
               </div>
+              <p className="mt-4 text-sm text-mute">
+                Enquiries:{" "}
+                <a href={site.phoneTel} className="text-teal underline-offset-4 hover:underline">
+                  {site.phoneDisplay}
+                </a>
+              </p>
             </div>
             <div className="min-w-0 md:col-span-7 md:col-start-6">
               <EnquireForm />
@@ -334,6 +315,12 @@ export default function HomePage() {
               {site.shortName}
             </p>
             <p className="mt-2 text-sm">{site.location}</p>
+            <p className="mt-3 text-sm">
+              Call / WhatsApp{" "}
+              <a href={site.phoneTel} className="text-white underline-offset-4 hover:underline">
+                {site.phoneDisplay}
+              </a>
+            </p>
           </div>
           <div className="max-w-md text-xs leading-relaxed">
             <p>{site.disclaimer}</p>

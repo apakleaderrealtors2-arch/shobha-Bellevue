@@ -13,6 +13,8 @@ export const site = {
   rera: "K-RERA/PRJ/KKD/135/2026",
   reraUrl: "https://rera.kerala.gov.in/",
   cin: "L45201KA1995PLC018475",
+  phoneE164: "+919946450723",
+  phoneDisplay: "+91 99464 50723",
   phoneTel: "tel:+919946450723",
   whatsappUrl:
     "https://wa.me/919946450723?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20Bellevue%20by%20SOBHA.",
@@ -25,7 +27,7 @@ export const site = {
   },
   siteUrl:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://www.sobha.com/kozhikode/sobha-bellevue",
+    "https://soba-apak2.vercel.app",
   hero: "/media/hero-still.jpg",
   heroVideo: "/media/hero-vertical.mp4",
   heroVideoDesktop: "/media/hero-desktop.mp4",
@@ -68,12 +70,16 @@ export const site = {
   ],
   faq: [
     {
+      q: "Where can I find luxury apartments in Kozhikode or Kozhikkode?",
+      a: "Bellevue by SOBHA offers 3 and 4 bed luxury apartments and residences in Feroke, Kozhikode (also spelled Kozhikkode), Kerala – 673363. Call or WhatsApp +91 99464 50723 for availability, site visits, and brochures.",
+    },
+    {
       q: "Where is Bellevue located?",
-      a: "Feroke, Kozhikode – 673363, Kerala.",
+      a: "Feroke, Kozhikode – 673363, Kerala, near the Chaliyar River, with views toward Beypore Beach and the Western Ghats.",
     },
     {
       q: "How many homes are there?",
-      a: "298 residences, in 3 and 4 bed configurations.",
+      a: "298 residences, in 3 and 4 bed configurations, from 2,243 to 3,331 Sq.Ft., starting from INR 3.21 Cr.*",
     },
     {
       q: "What is the land area?",
@@ -82,6 +88,10 @@ export const site = {
     {
       q: "When is completion expected?",
       a: "December 2033.",
+    },
+    {
+      q: "How do I contact Bellevue by SOBHA for apartments in Kozhikode?",
+      a: "Call or WhatsApp +91 99464 50723, or submit the enquiry form on this website for a private consultation, site visit, or brochure.",
     },
   ],
   about:
