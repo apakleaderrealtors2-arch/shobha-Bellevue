@@ -137,7 +137,7 @@ export function HeroMedia({
       <>
         <Image
           src={poster}
-          alt="Front elevation of Bellevue by SOBHA, twin towers in Feroke, Kozhikode"
+          alt="Aerial night view of Bellevue by SOBHA twin towers beside the river in Feroke, Kozhikode"
           fill
           priority
           className="object-cover"
