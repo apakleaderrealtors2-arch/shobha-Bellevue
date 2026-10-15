@@ -57,6 +57,32 @@
     padding-inline: 1.25rem;
   }
 
+  .amenity-stage {
+    perspective: 1100px;
+    perspective-origin: 50% 35%;
+  }
+
+  .amenity-card {
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    transition:
+      transform 0.12s linear,
+      opacity 0.12s linear;
+  }
+
+  @media (min-width: 768px) {
+    .amenity-stage {
+      perspective: none;
+    }
+
+    .amenity-card {
+      transform: none !important;
+      opacity: 1 !important;
+      will-change: auto;
+      transition: none;
+    }
+  }
+
   .hero-loader-panel {
     animation: hero-loader-in 0.65s ease both;
   }
@@ -146,6 +172,12 @@
     }
 
     .hero-loader-bar {
+      transition: none;
+    }
+
+    .amenity-card {
+      transform: none !important;
+      opacity: 1 !important;
       transition: none;
     }
   }

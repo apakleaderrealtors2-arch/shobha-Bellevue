@@ -5,6 +5,7 @@ import { HeroMedia } from "@/components/HeroMedia";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { DownloadButton } from "@/components/DownloadButton";
+import { AmenityCard } from "@/components/AmenityCard";
 
 export default function HomePage() {
   return (
@@ -191,22 +192,9 @@ export default function HomePage() {
               Clubhouse, pools, landscapes, and quiet green — designed for daily
               life, not just weekends.
             </p>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="amenity-stage mt-12 grid gap-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
               {site.amenities.map((a) => (
-                <article key={a.title} className="group">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-sand-deep">
-                    <Image
-                      src={a.image}
-                      alt={a.title}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                      sizes="(max-width:768px) 100vw, 33vw"
-                    />
-                  </div>
-                  <h3 className="mt-3 font-display text-xl text-ink">
-                    {a.title}
-                  </h3>
-                </article>
+                <AmenityCard key={a.title} title={a.title} image={a.image} />
               ))}
             </div>
           </div>
