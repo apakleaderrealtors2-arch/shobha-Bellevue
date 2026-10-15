@@ -325,7 +325,7 @@ export default function HomePage() {
           <div className="max-w-md text-xs leading-relaxed">
             <p>{site.disclaimer}</p>
             <p className="mt-3">CIN {site.cin}</p>
-            <p className="mt-2">SOBHA Limited © 2026</p>
+            <p className="mt-2">APAK</p>
           </div>
         </div>
       </footer>
