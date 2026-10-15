@@ -17,9 +17,13 @@ export default function HomePage() {
         <section className="bg-ink">
           <div
             id="hero-film"
-            className="relative h-[100dvh] w-full overflow-hidden md:mx-auto md:h-auto md:aspect-[9/16] md:w-[min(100%,calc(82vh*9/16))]"
+            className="relative mx-auto aspect-[9/16] w-[min(100%,calc(100dvh*9/16))] overflow-hidden md:aspect-video md:w-[min(100%,calc(82vh*16/9))]"
           >
-            <HeroMedia poster={site.hero} video={site.heroVideo} />
+            <HeroMedia
+              poster={site.hero}
+              mobileVideo={site.heroVideo}
+              desktopVideo={site.heroVideoDesktop}
+            />
           </div>
           <div id="hero-intro" className="container-page flex flex-col gap-6 py-8 text-white md:flex-row md:items-end md:justify-between">
             <div>

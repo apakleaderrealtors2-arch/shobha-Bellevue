@@ -28,6 +28,7 @@ export const site = {
     "https://www.sobha.com/kozhikode/sobha-bellevue",
   hero: "/media/hero-still.jpg",
   heroVideo: "/media/hero-vertical.mp4",
+  heroVideoDesktop: "/media/hero-desktop.mp4",
   overviewImage: "/media/gallery/photo-05.jpg",
   residences: [
     {

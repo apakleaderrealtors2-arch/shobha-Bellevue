@@ -3,26 +3,125 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+const READY_RATIO = 0.3;
+const FORCE_START_MS = 14000;
+const DESKTOP_QUERY = "(min-width: 768px)";
+
+function bufferedRatio(video: HTMLVideoElement) {
+  const duration = video.duration;
+  if (!Number.isFinite(duration) || duration <= 0) return 0;
+  const { buffered, currentTime } = video;
+  if (!buffered.length) return 0;
+  let end = 0;
+  for (let i = 0; i < buffered.length; i += 1) {
+    if (buffered.start(i) <= currentTime + 0.25) {
+      end = Math.max(end, buffered.end(i));
+    }
+  }
+  return Math.min(1, end / duration);
+}
+
 export function HeroMedia({
   poster,
-  video,
+  mobileVideo,
+  desktopVideo,
 }: {
   poster: string;
-  video: string;
+  mobileVideo: string;
+  desktopVideo: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const startedRef = useRef(false);
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [failed, setFailed] = useState(false);
   const [ended, setEnded] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [ready, setReady] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const activeVideo =
+    isDesktop === null ? null : isDesktop ? desktopVideo : mobileVideo;
 
   useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduceMotion(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const updateMotion = () => setReduceMotion(motion.matches);
+    const updateDesktop = () => setIsDesktop(desktop.matches);
+    updateMotion();
+    updateDesktop();
+    motion.addEventListener("change", updateMotion);
+    desktop.addEventListener("change", updateDesktop);
+    return () => {
+      motion.removeEventListener("change", updateMotion);
+      desktop.removeEventListener("change", updateDesktop);
+    };
   }, []);
+
+  useEffect(() => {
+    setFailed(false);
+    setEnded(false);
+    setReady(false);
+    setProgress(0);
+    setMuted(true);
+    startedRef.current = false;
+  }, [activeVideo]);
+
+  useEffect(() => {
+    if (reduceMotion || failed || !activeVideo) return;
+    const el = videoRef.current;
+    if (!el) return;
+
+    startedRef.current = false;
+
+    const startPlayback = async () => {
+      if (startedRef.current) return;
+      startedRef.current = true;
+      setProgress(1);
+      setReady(true);
+      el.muted = true;
+      try {
+        await el.play();
+      } catch {
+        // Autoplay can still fail on some browsers; keep the first frame visible.
+      }
+    };
+
+    const syncBuffer = () => {
+      const ratio = bufferedRatio(el);
+      setProgress((current) => Math.max(current, Math.min(1, ratio / READY_RATIO)));
+      if (ratio >= READY_RATIO) {
+        void startPlayback();
+      }
+    };
+
+    el.pause();
+    el.preload = "auto";
+    el.load();
+
+    const onCanPlayThrough = () => {
+      void startPlayback();
+    };
+
+    el.addEventListener("progress", syncBuffer);
+    el.addEventListener("loadeddata", syncBuffer);
+    el.addEventListener("canplay", syncBuffer);
+    el.addEventListener("canplaythrough", onCanPlayThrough);
+
+    const force = window.setTimeout(() => {
+      void startPlayback();
+    }, FORCE_START_MS);
+
+    syncBuffer();
+
+    return () => {
+      window.clearTimeout(force);
+      el.removeEventListener("progress", syncBuffer);
+      el.removeEventListener("loadeddata", syncBuffer);
+      el.removeEventListener("canplay", syncBuffer);
+      el.removeEventListener("canplaythrough", onCanPlayThrough);
+    };
+  }, [activeVideo, reduceMotion, failed]);
 
   const toggleMute = () => {
     const el = videoRef.current;
@@ -51,28 +150,79 @@ export function HeroMedia({
 
   return (
     <>
-      <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        onEnded={() => setEnded(true)}
-        onError={() => setFailed(true)}
-      >
-        <source src={video} type="video/mp4" />
-      </video>
-      <button
-        type="button"
-        onClick={toggleMute}
-        aria-label={muted ? "Unmute video" : "Mute video"}
-        className="absolute top-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-full border border-white/35 bg-ink/55 text-white backdrop-blur-sm transition hover:bg-ink/75"
-      >
-        {muted ? <MuteIcon /> : <UnmuteIcon />}
-      </button>
+      <Image
+        src={poster}
+        alt=""
+        fill
+        priority
+        aria-hidden
+        className={`object-cover transition-opacity duration-700 ${
+          ready ? "opacity-0" : "opacity-100"
+        }`}
+        sizes="100vw"
+      />
+      {activeVideo && (
+        <video
+          key={activeVideo}
+          ref={videoRef}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+            ready ? "opacity-100" : "opacity-0"
+          }`}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={() => setEnded(true)}
+          onError={() => setFailed(true)}
+        >
+          <source src={activeVideo} type="video/mp4" />
+        </video>
+      )}
+
+      {!ready && <VideoLoader progress={progress} />}
+
+      {ready && (
+        <button
+          type="button"
+          onClick={toggleMute}
+          aria-label={muted ? "Unmute video" : "Mute video"}
+          className="absolute top-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-full border border-white/35 bg-ink/55 text-white backdrop-blur-sm transition hover:bg-ink/75"
+        >
+          {muted ? <MuteIcon /> : <UnmuteIcon />}
+        </button>
+      )}
       {ended && <ScrollCue />}
     </>
+  );
+}
+
+function VideoLoader({ progress }: { progress: number }) {
+  const pct = Math.round(Math.min(1, Math.max(0, progress)) * 100);
+
+  return (
+    <div
+      className="hero-loader absolute inset-0 z-10 flex items-center justify-center bg-ink/35"
+      role="status"
+      aria-live="polite"
+      aria-label={`Loading film ${pct}%`}
+    >
+      <div className="hero-loader-panel mx-6 flex w-full max-w-[16rem] flex-col items-center text-center text-sand">
+        <p className="text-[10px] tracking-[0.42em] text-sand/70 uppercase">
+          Bellevue
+        </p>
+        <p className="mt-3 font-display text-2xl tracking-[0.04em] text-sand">
+          Preparing the film
+        </p>
+        <div className="mt-6 h-px w-full overflow-hidden bg-sand/20">
+          <div
+            className="hero-loader-bar h-full bg-sand"
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+        <p className="mt-3 text-[11px] tracking-[0.28em] text-sand/65 uppercase">
+          {pct < 100 ? `${pct}%` : "Starting"}
+        </p>
+      </div>
+    </div>
   );
 }
 

@@ -57,6 +57,25 @@
     padding-inline: 1.25rem;
   }
 
+  .hero-loader-panel {
+    animation: hero-loader-in 0.65s ease both;
+  }
+
+  .hero-loader-bar {
+    transition: width 0.35s ease;
+  }
+
+  @keyframes hero-loader-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .scroll-cue-enter {
     animation: scroll-cue-in 0.7s ease both;
   }
@@ -118,11 +137,16 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hero-loader-panel,
     .scroll-cue-enter,
     .scroll-cue-float,
     .scroll-ring,
     .scroll-chevron {
       animation: none;
+    }
+
+    .hero-loader-bar {
+      transition: none;
     }
   }
 
