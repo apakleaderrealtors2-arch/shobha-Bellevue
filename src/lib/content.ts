@@ -29,6 +29,7 @@ export const site = {
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
     "https://soba-apak2.vercel.app",
   hero: "/media/hero-still.jpg",
+  ogImage: "/media/og.jpg",
   heroVideo: "/media/hero-vertical.mp4",
   heroVideoDesktop: "/media/hero-desktop.mp4",
   overviewImage: "/media/gallery/photo-05.jpg",

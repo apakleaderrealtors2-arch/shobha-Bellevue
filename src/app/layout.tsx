@@ -66,10 +66,11 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: site.hero,
+        url: site.ogImage,
         width: 1200,
         height: 630,
-        alt: "Bellevue by SOBHA twin towers in Feroke, Kozhikode",
+        alt: "Night aerial view of Bellevue by SOBHA twin towers in Feroke, Kozhikode",
+        type: "image/jpeg",
       },
     ],
   },
@@ -77,7 +78,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: [site.hero],
+    images: [
+      {
+        url: site.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "Night aerial view of Bellevue by SOBHA twin towers in Feroke, Kozhikode",
+      },
+    ],
   },
   other: {
     "ai-summary": `Bellevue by SOBHA — luxury apartments in Feroke, Kozhikode/Kozhikkode. Contact ${site.phoneDisplay}.`,
