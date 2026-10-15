@@ -3,75 +3,42 @@ import { site } from "@/lib/content";
 import { EnquireForm } from "@/components/EnquireForm";
 import { HeroMedia } from "@/components/HeroMedia";
 import { JsonLd } from "@/components/JsonLd";
-
-const nav = [
-  { href: "#overview", label: "Overview" },
-  { href: "#homes", label: "Homes" },
-  { href: "#amenities", label: "Amenities" },
-  { href: "#gallery", label: "Gallery" },
-  { href: "#location", label: "Location" },
-  { href: "#enquire", label: "Enquire" },
-];
+import { SiteHeader } from "@/components/SiteHeader";
+import { DownloadButton } from "@/components/DownloadButton";
 
 export default function HomePage() {
   return (
     <>
       <JsonLd />
-      <header className="sticky top-0 z-50 border-b border-line/80 bg-sand/90 backdrop-blur-md">
-        <div className="container-page flex h-16 items-center justify-between md:h-18">
-          <a href="#top" className="leading-tight">
-            <span className="block text-[10px] tracking-[0.28em] text-teal uppercase">
-              {site.brand}
-            </span>
-            <span className="font-display text-xl text-ink">{site.shortName}</span>
-          </a>
-          <nav className="hidden items-center gap-7 md:flex">
-            {nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm text-mute transition hover:text-ink"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-          <a
-            href="#enquire"
-            className="rounded-full bg-teal px-4 py-2 text-sm text-white transition hover:bg-teal-deep"
-          >
-            Enquire
-          </a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="top">
         {/* Hero */}
-        <section className="relative min-h-[88vh] overflow-hidden bg-ink">
-          <HeroMedia poster={site.hero} video={site.heroVideo} />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/25 to-ink/30" />
-          <div className="container-page relative flex min-h-[88vh] flex-col justify-end pb-16 pt-28 md:pb-20">
-            <p className="text-sm tracking-[0.2em] text-white/70 uppercase">
-              {site.location.split("–")[0].trim()}
-            </p>
-            <h1 className="mt-3 max-w-3xl font-display text-5xl leading-[1.05] text-white md:text-7xl">
-              {site.name}
-            </h1>
-            <p className="mt-4 max-w-xl text-lg text-white/80">{site.tagline}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+        <section className="bg-ink">
+          <div
+            id="hero-film"
+            className="relative aspect-[9/16] w-full md:mx-auto md:w-[min(100%,calc(82vh*9/16))]"
+          >
+            <HeroMedia poster={site.hero} video={site.heroVideo} />
+          </div>
+          <div id="hero-intro" className="container-page flex flex-col gap-6 py-8 text-white md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm tracking-[0.2em] text-white/70 uppercase">
+                {site.location.split("–")[0].trim()}
+              </p>
+              <h1 className="mt-2 font-display text-4xl leading-tight md:text-5xl">
+                {site.name}
+              </h1>
+              <p className="mt-2 text-white/80">{site.tagline}</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
               <a
                 href="#enquire"
                 className="rounded-full bg-white px-6 py-3 text-sm font-medium text-ink transition hover:bg-sand"
               >
                 Book a site visit
               </a>
-              <a
-                href={site.downloads.brochure}
-                download
-                className="rounded-full border border-white/40 px-6 py-3 text-sm text-white transition hover:border-white"
-              >
-                Download brochure
-              </a>
+              <DownloadButton document="brochure" variant="hero" />
             </div>
           </div>
         </section>
@@ -136,27 +103,9 @@ export default function HomePage() {
                 </div>
               </dl>
               <div className="mt-8 flex flex-wrap gap-4 text-sm">
-                <a
-                  href={site.downloads.floorPlan}
-                  download
-                  className="text-teal underline decoration-line underline-offset-4 hover:decoration-teal"
-                >
-                  Floor plans
-                </a>
-                <a
-                  href={site.downloads.masterPlan}
-                  download
-                  className="text-teal underline decoration-line underline-offset-4 hover:decoration-teal"
-                >
-                  Master plan
-                </a>
-                <a
-                  href={site.downloads.brochure}
-                  download
-                  className="text-teal underline decoration-line underline-offset-4 hover:decoration-teal"
-                >
-                  Brochure
-                </a>
+                <DownloadButton document="floorPlan" />
+                <DownloadButton document="masterPlan" />
+                <DownloadButton document="brochure" />
               </div>
             </div>
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-sand-deep">
@@ -359,15 +308,22 @@ export default function HomePage() {
                 Share your details for a private consultation, site visit, or
                 brochure.
               </p>
-              <p className="mt-6 text-sm text-mute">
-                Call{" "}
+              <div className="mt-6 flex flex-wrap gap-3">
                 <a
-                  href={`tel:${site.phone.replace(/\s/g, "")}`}
-                  className="font-medium text-ink"
+                  href={site.phoneTel}
+                  className="rounded-full bg-teal px-5 py-2.5 text-sm text-white transition hover:bg-teal-deep"
                 >
-                  {site.phone}
+                  Call
                 </a>
-              </p>
+                <a
+                  href={site.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-teal px-5 py-2.5 text-sm text-teal transition hover:bg-teal hover:text-white"
+                >
+                  WhatsApp
+                </a>
+              </div>
             </div>
             <div className="md:col-span-7 md:col-start-6">
               <EnquireForm />

@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { site } from "@/lib/content";
+import { formatPhone, localNumberError } from "@/lib/phone";
+import { PhoneField, defaultCountry } from "@/components/PhoneField";
 
 type Form = {
   name: string;
@@ -25,6 +27,7 @@ const initial: Form = {
 
 export function EnquireForm() {
   const [form, setForm] = useState<Form>(initial);
+  const [country, setCountry] = useState(defaultCountry);
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [done, setDone] = useState(false);
   const [sending, setSending] = useState(false);
@@ -35,8 +38,7 @@ export function EnquireForm() {
     if (!form.name.trim()) next.name = "Please enter your name";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       next.email = "Enter a valid email";
-    if (!/^[0-9+\-\s]{8,16}$/.test(form.phone))
-      next.phone = "Enter a valid phone";
+    if (localNumberError(form.phone)) next.phone = localNumberError(form.phone);
     if (!form.consent) next.consent = "Consent is required";
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -51,7 +53,11 @@ export function EnquireForm() {
       const res = await fetch("/api/enquire", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, project: site.name }),
+        body: JSON.stringify({
+          ...form,
+          phone: formatPhone(country, form.phone),
+          project: site.name,
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) {
@@ -105,11 +111,13 @@ export function EnquireForm() {
           error={errors.email}
           onChange={(v) => setForm((f) => ({ ...f, email: v }))}
         />
-        <Field
+        <PhoneField
           label="Phone"
-          value={form.phone}
+          iso={country}
+          number={form.phone}
           error={errors.phone}
-          onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
+          onIso={setCountry}
+          onNumber={(value) => setForm((current) => ({ ...current, phone: value }))}
         />
         <div>
           <label className="text-sm text-mute">Interest</label>

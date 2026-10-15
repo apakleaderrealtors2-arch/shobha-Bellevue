@@ -13,19 +13,21 @@ export const site = {
   rera: "K-RERA/PRJ/KKD/135/2026",
   reraUrl: "https://rera.kerala.gov.in/",
   cin: "L45201KA1995PLC018475",
-  phone: "080 46464510",
+  phoneTel: "tel:+919946450723",
+  whatsappUrl:
+    "https://wa.me/919946450723?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20Bellevue%20by%20SOBHA.",
   overview:
     "Bellevue by SOBHA presents 298 limited-edition residences with views of the Chaliyar River, Beypore Beach, and the Western Ghats. Away from the city’s bustle yet well connected, it brings expansive homes, curated amenities, and an international lifestyle.",
-  downloads: {
-    brochure: "/media/docs/brochure.pdf",
-    floorPlan: "/media/docs/floorplans.pdf",
-    masterPlan: "/media/docs/masterplan.pdf",
+  documents: {
+    brochure: { label: "Brochure", file: "brochure.pdf" },
+    floorPlan: { label: "Floor plans", file: "floorplans.pdf" },
+    masterPlan: { label: "Master plan", file: "masterplan.pdf" },
   },
   siteUrl:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
     "https://www.sobha.com/kozhikode/sobha-bellevue",
   hero: "/media/hero-still.jpg",
-  heroVideo: "/media/hero.mp4",
+  heroVideo: "/media/hero-vertical.mp4",
   overviewImage: "/media/gallery/photo-05.jpg",
   residences: [
     {

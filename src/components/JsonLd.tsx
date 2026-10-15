@@ -14,7 +14,7 @@ export function JsonLd() {
           `${site.siteUrl}${site.overviewImage}`,
           `${site.siteUrl}/media/gallery/living.jpg`,
         ],
-        telephone: "+918046464510",
+        telephone: "+919946450723",
         address: {
           "@type": "PostalAddress",
           streetAddress: "Feroke",
