@@ -95,9 +95,9 @@ export function EnquireForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="relative rounded-2xl border border-line bg-white p-6 md:p-8"
+      className="relative max-w-full min-w-0 overflow-hidden rounded-2xl border border-line bg-white p-5 sm:p-6 md:p-8"
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
         <Field
           label="Full name"
           value={form.name}
@@ -119,14 +119,14 @@ export function EnquireForm() {
           onIso={setCountry}
           onNumber={(value) => setForm((current) => ({ ...current, phone: value }))}
         />
-        <div>
+        <div className="min-w-0">
           <label className="text-sm text-mute">Interest</label>
           <select
             value={form.interest}
             onChange={(e) =>
               setForm((f) => ({ ...f, interest: e.target.value }))
             }
-            className="mt-1.5 w-full rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
+            className="mt-1.5 w-full min-w-0 rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
           >
             <option>3 Bed Residences</option>
             <option>4 Bed Residences</option>
@@ -135,7 +135,7 @@ export function EnquireForm() {
           </select>
         </div>
       </div>
-      <div className="absolute -left-[9999px]" aria-hidden="true">
+      <div className="sr-only" aria-hidden="true">
         <label>
           Company
           <input
@@ -146,13 +146,13 @@ export function EnquireForm() {
           />
         </label>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 min-w-0">
         <label className="text-sm text-mute">Message</label>
         <textarea
           rows={4}
           value={form.message}
           onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-          className="mt-1.5 w-full resize-none rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
+          className="mt-1.5 w-full min-w-0 resize-none rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
         />
       </div>
       <label className="mt-4 flex items-start gap-3 text-sm text-mute">
@@ -197,13 +197,13 @@ function Field({
   type?: string;
 }) {
   return (
-    <div>
+    <div className="min-w-0">
       <label className="text-sm text-mute">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
+        className="mt-1.5 w-full min-w-0 rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
       />
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>

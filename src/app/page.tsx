@@ -17,7 +17,7 @@ export default function HomePage() {
         <section className="bg-ink">
           <div
             id="hero-film"
-            className="relative aspect-[9/16] w-full md:mx-auto md:w-[min(100%,calc(82vh*9/16))]"
+            className="relative h-[100dvh] w-full overflow-hidden md:mx-auto md:h-auto md:aspect-[9/16] md:w-[min(100%,calc(82vh*9/16))]"
           >
             <HeroMedia poster={site.hero} video={site.heroVideo} />
           </div>
@@ -325,7 +325,7 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-            <div className="md:col-span-7 md:col-start-6">
+            <div className="min-w-0 md:col-span-7 md:col-start-6">
               <EnquireForm />
             </div>
           </div>

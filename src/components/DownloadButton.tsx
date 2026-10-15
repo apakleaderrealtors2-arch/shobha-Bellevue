@@ -163,7 +163,7 @@ function DownloadDialog({
             onNumber={setPhone}
           />
         </div>
-        <div className="absolute -left-[9999px]" aria-hidden="true">
+        <div className="sr-only" aria-hidden="true">
           <label>
             Company
             <input
