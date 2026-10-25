@@ -6,12 +6,14 @@ import { useEffect, useRef, useState } from "react";
 export function ResidenceCard({
   title,
   size,
+  price,
   image,
   points,
   index = 0,
 }: {
   title: string;
   size: string;
+  price?: string;
   image: string;
   points: readonly string[];
   index?: number;
@@ -117,6 +119,7 @@ export function ResidenceCard({
           }
         >
           {size}
+          {price ? <span className="mt-1 block text-ink">{price}</span> : null}
         </p>
         <ul className="mt-5 space-y-2 text-sm text-mute">
           {points.map((point, pointIndex) => {

@@ -18,7 +18,7 @@ const body = Outfit({
 
 const title =
   "Bellevue by SOBHA | Luxury Apartments in Kozhikode (Kozhikkode) | Feroke";
-const description = `Luxury 3 & 4 bed apartments in Feroke, Kozhikode (Kozhikkode), Kerala. 298 residences from 2,243 Sq.Ft., starting INR 3.21 Cr.* Call or WhatsApp ${site.phoneDisplay} for site visits and brochures.`;
+const description = `Luxury 3 & 4 BHK apartments in Feroke, Kozhikode (Kozhikkode), Kerala. 298 residences in two 42-storey towers, from ${site.sizeRange}, starting ${site.priceFrom} Possession ${site.completion}. Call or WhatsApp ${site.phoneDisplay}.`;
 
 const siteUrl = new URL(site.siteUrl);
 const canonicalPath =

@@ -94,7 +94,7 @@ export function JsonLd() {
         offers: {
           "@type": "AggregateOffer",
           priceCurrency: "INR",
-          lowPrice: "32100000",
+          lowPrice: site.priceFromInr,
           offerCount: String(site.units),
           availability: "https://schema.org/PreOrder",
           url: `${site.siteUrl}/#enquire`,

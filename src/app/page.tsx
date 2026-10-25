@@ -51,11 +51,13 @@ export default function HomePage() {
 
         {/* Quick facts */}
         <section className="border-b border-line bg-sand-deep/50">
-          <div className="container-page grid grid-cols-2 gap-6 py-10 md:grid-cols-4 md:gap-8 md:py-12">
+          <div className="container-page grid grid-cols-2 gap-6 py-10 md:grid-cols-3 md:gap-8 md:py-12 lg:grid-cols-6">
             {[
               { label: "Residences", value: String(site.units) },
+              { label: "Towers", value: site.towers },
+              { label: "Floors", value: site.floors },
               { label: "Land area", value: site.landArea },
-              { label: "Homes", value: "3 & 4 Bed" },
+              { label: "Possession", value: site.completion },
               { label: "Starting from", value: site.priceFrom },
             ].map((item) => (
               <div key={item.label}>
@@ -136,15 +138,16 @@ export default function HomePage() {
               Choose your home
             </h2>
             <p className="mt-4 max-w-2xl text-mute">
-              Limited-edition 3 and 4 bed residences — clear sizes, clear
-              pricing, crafted for light and view.
+              Six 3 and 4 BHK plans, from {site.sizeRange}. Pre-launch rate{" "}
+              {site.pricePerSqft}, starting {site.priceFrom}
             </p>
-            <div className="mt-12 grid gap-8 md:grid-cols-2">
+            <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {site.residences.map((home, index) => (
                 <ResidenceCard
-                  key={home.title}
+                  key={`${home.title}-${home.size}`}
                   title={home.title}
                   size={home.size}
+                  price={home.price}
                   image={home.image}
                   points={home.points}
                   index={index}
@@ -164,12 +167,26 @@ export default function HomePage() {
               Amenities
             </h2>
             <p className="mt-4 max-w-2xl text-mute">
-              Clubhouse, pools, landscapes, and quiet green — designed for daily
-              life, not just weekends.
+              A riverfront arrival, podium pools, courts, and quiet green —
+              planned across the ground and the deck.
             </p>
             <div className="amenity-stage mt-12 grid gap-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
               {site.amenities.map((a) => (
                 <AmenityCard key={a.title} title={a.title} image={a.image} />
+              ))}
+            </div>
+            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {site.amenityGroups.map((group) => (
+                <div key={group.title}>
+                  <h3 className="text-sm tracking-[0.16em] text-teal uppercase">
+                    {group.title}
+                  </h3>
+                  <ul className="mt-4 space-y-2 text-sm text-ink">
+                    {group.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
           </div>
@@ -214,9 +231,17 @@ export default function HomePage() {
                 Feroke, Kozhikode
               </h2>
               <p className="mt-5 text-mute leading-relaxed">
-                {site.location}. Near the Chaliyar River, with views toward
-                Beypore Beach and the Western Ghats — connected, yet calm.
+                {site.location}. On the Chaliyar riverfront, with NH66, Feroke
+                Railway Station, and Calicut International Airport within reach.
               </p>
+              <ul className="mt-8 space-y-3 text-sm">
+                {site.nearby.map((item) => (
+                  <li key={item.place} className="flex justify-between gap-4 border-b border-line pb-3">
+                    <span className="text-ink">{item.place}</span>
+                    <span className="shrink-0 text-mute">{item.detail}</span>
+                  </li>
+                ))}
+              </ul>
               <a
                 href="#enquire"
                 className="mt-8 inline-flex rounded-full bg-teal px-5 py-3 text-sm text-white hover:bg-teal-deep"
@@ -266,7 +291,7 @@ export default function HomePage() {
           <div className="container-page grid gap-12 md:grid-cols-12">
             <div className="md:col-span-4">
               <p className="text-sm tracking-[0.18em] text-teal uppercase">
-                Enquire
+                Enquire now
               </p>
               <h2 className="mt-3 font-display text-4xl text-ink">
                 Talk to us
@@ -324,8 +349,11 @@ export default function HomePage() {
           </div>
           <div className="max-w-md text-xs leading-relaxed">
             <p>{site.disclaimer}</p>
+            <p className="mt-3 text-white">{site.agentName}</p>
+            <p className="mt-1">
+              RERA Agent {site.agentRera}. {site.agentReraValid}.
+            </p>
             <p className="mt-3">CIN {site.cin}</p>
-            <p className="mt-2">APAK</p>
           </div>
         </div>
       </footer>

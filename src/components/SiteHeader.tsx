@@ -9,7 +9,7 @@ const nav = [
   { href: "#amenities", label: "Amenities" },
   { href: "#gallery", label: "Gallery" },
   { href: "#location", label: "Location" },
-  { href: "#enquire", label: "Enquire" },
+  { href: "#enquire", label: "Enquire now" },
 ];
 
 export function SiteHeader() {
@@ -55,7 +55,7 @@ export function SiteHeader() {
           href="#enquire"
           className="rounded-full bg-teal px-4 py-2 text-sm text-white transition hover:bg-teal-deep"
         >
-          Enquire
+          Enquire now
         </a>
       </div>
     </header>

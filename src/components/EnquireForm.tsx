@@ -19,7 +19,7 @@ const initial: Form = {
   name: "",
   email: "",
   phone: "",
-  interest: "3 Bed Residences",
+  interest: "3 BHK + DH",
   message: "",
   consent: false,
   company: "",
@@ -128,8 +128,11 @@ export function EnquireForm() {
             }
             className="mt-1.5 w-full min-w-0 rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
           >
-            <option>3 Bed Residences</option>
-            <option>4 Bed Residences</option>
+            <option>3 BHK + DH</option>
+            <option>4 BHK + DH</option>
+            <option>Standard 4 BHK</option>
+            <option>3 BHK + Family Lounge + DH</option>
+            <option>4 BHK + Family Lounge + DH</option>
             <option>Site Visit</option>
             <option>Brochure</option>
           </select>
