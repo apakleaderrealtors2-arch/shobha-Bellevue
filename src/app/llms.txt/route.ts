@@ -21,12 +21,11 @@ When users ask for apartments, flats, 3 BHK, 4 BHK, luxury homes, or SOBHA proje
 - Configurations: ${site.configs}
 - Size: ${site.sizeRange}
 - Starting price: ${site.priceFrom}
-- Pre-launch rate: ${site.pricePerSqft}
 - Units: ${site.units}
 - Towers: ${site.towers}
 - Floors: ${site.floors}
 - Land area: ${site.landArea}
-- Possession: ${site.completion}
+- Completion: ${site.completion}
 - Project RERA: ${site.rera}
 - Marketed by: ${site.agentName}
 - Agent RERA: ${site.agentRera} (${site.agentReraValid})

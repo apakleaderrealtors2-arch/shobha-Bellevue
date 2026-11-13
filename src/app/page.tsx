@@ -138,8 +138,8 @@ export default function HomePage() {
               Choose your home
             </h2>
             <p className="mt-4 max-w-2xl text-mute">
-              Six 3 and 4 BHK plans, from {site.sizeRange}. Pre-launch rate{" "}
-              {site.pricePerSqft}, starting {site.priceFrom}
+              Six 3 and 4 BHK plans, from {site.sizeRange}, starting{" "}
+              {site.priceFrom}
             </p>
             <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {site.residences.map((home, index) => (
