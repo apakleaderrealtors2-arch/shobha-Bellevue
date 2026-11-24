@@ -187,3 +187,15 @@ export const site = {
     "By submitting your inquiry or contact information on this portal, you authorize us to share your details with the respective K-RERA registered developer for verification and follow-up, and consent to receive project-related communications via phone, SMS, WhatsApp, or email. All text, graphics, and layouts on this site are protected under applicable intellectual property laws; unauthorized copying or distribution is strictly prohibited. For verified pricing, current inventory, and official documentation, please get in touch with our team directly.",
   ],
 } as const;
+
+export function residenceInterest(title: string, size: string) {
+  return `${title} · ${size}`;
+}
+
+export const enquireInterests = [
+  ...site.residences.map((home) => residenceInterest(home.title, home.size)),
+  "Site Visit",
+  "Brochure",
+] as const;
+
+export const ENQUIRE_INTEREST_EVENT = "bellevue:enquire-interest";

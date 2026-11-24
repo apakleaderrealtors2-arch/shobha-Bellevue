@@ -1,7 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { site } from "@/lib/content";
+import { FormEvent, useEffect, useState } from "react";
+import {
+  ENQUIRE_INTEREST_EVENT,
+  enquireInterests,
+  site,
+} from "@/lib/content";
 import { formatPhone, localNumberError } from "@/lib/phone";
 import { PhoneField, defaultCountry } from "@/components/PhoneField";
 
@@ -15,15 +19,25 @@ type Form = {
   company: string;
 };
 
+const defaultInterest = enquireInterests[0];
+
 const initial: Form = {
   name: "",
   email: "",
   phone: "",
-  interest: "3 BHK + DH",
+  interest: defaultInterest,
   message: "",
   consent: false,
   company: "",
 };
+
+function resolveInterest(value: string | null | undefined) {
+  if (!value) return null;
+  const decoded = decodeURIComponent(value).trim();
+  if ((enquireInterests as readonly string[]).includes(decoded)) return decoded;
+  const byTitle = enquireInterests.find((item) => item.startsWith(`${decoded} ·`));
+  return byTitle ?? null;
+}
 
 export function EnquireForm() {
   const [form, setForm] = useState<Form>(initial);
@@ -32,6 +46,26 @@ export function EnquireForm() {
   const [done, setDone] = useState(false);
   const [sending, setSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
+
+  useEffect(() => {
+    const applyInterest = (value: string | null | undefined) => {
+      const next = resolveInterest(value);
+      if (!next) return;
+      setDone(false);
+      setForm((current) => ({ ...current, interest: next }));
+    };
+
+    const fromQuery = new URLSearchParams(window.location.search).get("interest");
+    applyInterest(fromQuery);
+
+    const onInterest = (event: Event) => {
+      const detail = (event as CustomEvent<{ interest?: string }>).detail;
+      applyInterest(detail?.interest);
+    };
+
+    window.addEventListener(ENQUIRE_INTEREST_EVENT, onInterest);
+    return () => window.removeEventListener(ENQUIRE_INTEREST_EVENT, onInterest);
+  }, []);
 
   const validate = () => {
     const next: typeof errors = {};
@@ -128,13 +162,11 @@ export function EnquireForm() {
             }
             className="mt-1.5 w-full min-w-0 rounded-lg border border-line bg-sand px-3 py-2.5 text-ink outline-none focus:border-teal"
           >
-            <option>3 BHK + DH</option>
-            <option>4 BHK + DH</option>
-            <option>Standard 4 BHK</option>
-            <option>4 BHK + Family Lounge</option>
-            <option>4 BHK + Family Lounge + DH</option>
-            <option>Site Visit</option>
-            <option>Brochure</option>
+            {enquireInterests.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
       </div>

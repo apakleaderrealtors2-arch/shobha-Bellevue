@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { ENQUIRE_INTEREST_EVENT, residenceInterest } from "@/lib/content";
 
 export function ResidenceCard({
   title,
@@ -18,6 +19,7 @@ export function ResidenceCard({
   points: readonly string[];
   index?: number;
 }) {
+  const interest = residenceInterest(title, size);
   const ref = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [animate, setAnimate] = useState(false);
@@ -147,7 +149,23 @@ export function ResidenceCard({
           })}
         </ul>
         <a
-          href="#enquire"
+          href={`/?interest=${encodeURIComponent(interest)}#enquire`}
+          onClick={(event) => {
+            event.preventDefault();
+            const url = new URL(window.location.href);
+            url.searchParams.set("interest", interest);
+            url.hash = "enquire";
+            window.history.replaceState({}, "", `${url.pathname}?${url.searchParams.toString()}#enquire`);
+            window.dispatchEvent(
+              new CustomEvent(ENQUIRE_INTEREST_EVENT, {
+                detail: { interest },
+              }),
+            );
+            document.getElementById("enquire")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
           className="mt-6 inline-block text-sm font-medium text-ink underline decoration-line underline-offset-4 transition hover:decoration-teal"
           style={
             animate
