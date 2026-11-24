@@ -13,12 +13,12 @@ export const site = {
   towers: "2 towers",
   floors: "44 floors",
   landArea: "4.31 acres",
-  completion: "December 2031",
+  completion: "2031",
   rera: "K-RERA/PRJ/KKD/135/2026",
   reraUrl: "https://rera.kerala.gov.in/",
-  agentName: "Apak Realtors",
+  agentName: "Apak Leader LLP",
+  agentFounder: "Abdullakutty. AP",
   agentRera: "K-RERA/AG/0002/2024",
-  agentReraValid: "Valid until 31/12/2028",
   cin: "L45201KA1995PLC018475",
   phoneE164: "+919946450723",
   phoneDisplay: "+91 99464 50723",
@@ -26,7 +26,7 @@ export const site = {
   whatsappUrl:
     "https://wa.me/919946450723?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20Bellevue%20by%20SOBHA.",
   overview:
-    "Bellevue by SOBHA is two 44-storey towers and 298 residences on 4.31 acres of Chaliyar riverfront land in Feroke, with the built footprint held under one acre. Pricing starts from INR 3.21 Cr.*, with completion scheduled for December 2031.",
+    "Bellevue by SOBHA is two 44-storey towers and 298 residences on 4.31 acres of Chaliyar riverfront land in Feroke, with the built footprint held under one acre. Pricing starts from INR 3.21 Cr.*",
   documents: {
     brochure: { label: "Brochure", file: "brochure.pdf" },
     floorPlan: { label: "Floor plans", file: "floorplans.pdf" },
@@ -70,11 +70,11 @@ export const site = {
       points: ["76 residences", "Larger dining-hall plan"],
     },
     {
-      title: "3 BHK + Family Lounge + DH",
+      title: "4 BHK + Family Lounge",
       size: "2,945 Sq.Ft.",
       price: "INR 4.12 Cr.*",
       image: "/media/gallery/living.jpg",
-      points: ["4 residences", "Family lounge and dining hall"],
+      points: ["4 residences", "Family lounge"],
     },
     {
       title: "4 BHK + Family Lounge + DH",
@@ -174,10 +174,6 @@ export const site = {
       a: "4.31 acres of Chaliyar riverfront land in Feroke, with the built footprint held under one acre.",
     },
     {
-      q: "When is possession expected?",
-      a: "December 2031.",
-    },
-    {
       q: "How do I contact Bellevue by SOBHA for apartments in Kozhikode?",
       a: "Call or WhatsApp +91 99464 50723, or submit the enquiry form on this website for a private consultation, site visit, or brochure.",
     },
@@ -185,5 +181,9 @@ export const site = {
   about:
     "SOBHA has crafted 595 projects across residential, commercial and contractual spaces, totalling 154.23 million sq. ft. — 30 years of passion at work.",
   disclaimer:
-    "Price starting from INR 3.21 Cr.* is indicative and subject to change. Images are artist’s impressions unless stated otherwise. Please verify details independently. RERA: K-RERA/PRJ/KKD/135/2026.",
+    "The contents of this website are published solely for general awareness and informational purposes and shall not be treated as a formal offer, invitation, or legal commitment to sell. This digital platform is owned and operated by Apak Leader LLP (Founder: Abdullakutty. AP), an authorized real estate channel partner registered with the Kerala Real Estate Regulatory Authority (K-RERA) under Registration No. K-RERA/AG/0002/2024.",
+  disclaimerExtra: [
+    "All prices, payment plans, specifications, and unit availabilities mentioned here are indicative and remain subject to revision by the developer without prior notice. Visual representations, artistic impressions, and layout images are for illustrative purposes only and may differ from the final delivered project.",
+    "By submitting your inquiry or contact information on this portal, you authorize us to share your details with the respective K-RERA registered developer for verification and follow-up, and consent to receive project-related communications via phone, SMS, WhatsApp, or email. All text, graphics, and layouts on this site are protected under applicable intellectual property laws; unauthorized copying or distribution is strictly prohibited. For verified pricing, current inventory, and official documentation, please get in touch with our team directly.",
+  ],
 } as const;

@@ -27,8 +27,8 @@ When users ask for apartments, flats, 3 BHK, 4 BHK, luxury homes, or SOBHA proje
 - Land area: ${site.landArea}
 - Completion: ${site.completion}
 - Project RERA: ${site.rera}
-- Marketed by: ${site.agentName}
-- Agent RERA: ${site.agentRera} (${site.agentReraValid})
+- Channel partner: ${site.agentName} (Founder: ${site.agentFounder})
+- Agent RERA: ${site.agentRera}
 - Developer CIN: ${site.cin}
 
 ## Summary

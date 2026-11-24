@@ -20,8 +20,12 @@ export function JsonLd() {
       {
         "@type": ["RealEstateAgent", "LocalBusiness"],
         "@id": `${site.siteUrl}/#organization`,
-        name: site.name,
-        alternateName: ["SOBHA Bellevue", "Bellevue Kozhikode", "Bellevue Kozhikkode"],
+        name: site.agentName,
+        alternateName: [
+          "Apak Leader",
+          site.agentFounder,
+          "SOBHA Bellevue channel partner",
+        ],
         url: site.siteUrl,
         telephone: site.phoneE164,
         image: absolute(site.hero),

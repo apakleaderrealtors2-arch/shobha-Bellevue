@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { site } from "@/lib/content";
 import { EnquireForm } from "@/components/EnquireForm";
 import { HeroMedia } from "@/components/HeroMedia";
@@ -7,12 +8,14 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { DownloadButton } from "@/components/DownloadButton";
 import { AmenityCard } from "@/components/AmenityCard";
 import { ResidenceCard } from "@/components/ResidenceCard";
+import { SiteChatbot } from "@/components/SiteChatbot";
 
 export default function HomePage() {
   return (
     <>
       <JsonLd />
       <SiteHeader />
+      <SiteChatbot />
 
       <main id="top">
         {/* Hero */}
@@ -51,13 +54,12 @@ export default function HomePage() {
 
         {/* Quick facts */}
         <section className="border-b border-line bg-sand-deep/50">
-          <div className="container-page grid grid-cols-2 gap-6 py-10 md:grid-cols-3 md:gap-8 md:py-12 lg:grid-cols-6">
+          <div className="container-page grid grid-cols-2 gap-6 py-10 md:grid-cols-3 md:gap-8 md:py-12 lg:grid-cols-5">
             {[
               { label: "Residences", value: String(site.units) },
               { label: "Towers", value: site.towers },
               { label: "Floors", value: site.floors },
               { label: "Land area", value: site.landArea },
-              { label: "Possession", value: site.completion },
               { label: "Starting from", value: site.priceFrom },
             ].map((item) => (
               <div key={item.label}>
@@ -89,25 +91,16 @@ export default function HomePage() {
                   <dd className="mt-1 font-medium text-ink">{site.sizeRange}</dd>
                 </div>
                 <div>
-                  <dt className="text-mute">Completion</dt>
-                  <dd className="mt-1 font-medium text-ink">{site.completion}</dd>
-                </div>
-                <div>
                   <dt className="text-mute">Configuration</dt>
                   <dd className="mt-1 font-medium text-ink">{site.configs}</dd>
                 </div>
                 <div>
-                  <dt className="text-mute">RERA</dt>
-                  <dd className="mt-1 font-medium text-ink">
-                    <a
-                      href={site.reraUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline decoration-line underline-offset-4 hover:text-teal"
-                    >
-                      {site.rera}
-                    </a>
-                  </dd>
+                  <dt className="text-mute">Towers</dt>
+                  <dd className="mt-1 font-medium text-ink">{site.towers}</dd>
+                </div>
+                <div>
+                  <dt className="text-mute">Floors</dt>
+                  <dd className="mt-1 font-medium text-ink">{site.floors}</dd>
                 </div>
               </dl>
               <div className="mt-8 flex flex-wrap gap-4 text-sm">
@@ -331,29 +324,82 @@ export default function HomePage() {
       </main>
 
       <footer className="border-t border-line bg-ink py-12 text-white/70">
-        <div className="container-page flex flex-col gap-6 md:flex-row md:justify-between">
-          <div>
-            <p className="text-[10px] tracking-[0.28em] text-white/40 uppercase">
-              {site.brand}
-            </p>
-            <p className="mt-1 font-display text-2xl text-white">
-              {site.shortName}
-            </p>
-            <p className="mt-2 text-sm">{site.location}</p>
-            <p className="mt-3 text-sm">
-              Call / WhatsApp{" "}
-              <a href={site.phoneTel} className="text-white underline-offset-4 hover:underline">
-                {site.phoneDisplay}
-              </a>
-            </p>
+        <div className="container-page space-y-10">
+          <div className="flex flex-col gap-6 md:flex-row md:justify-between">
+            <div>
+              <p className="text-[10px] tracking-[0.28em] text-white/40 uppercase">
+                {site.brand}
+              </p>
+              <p className="mt-1 font-display text-2xl text-white">
+                {site.shortName}
+              </p>
+              <p className="mt-2 text-sm">{site.location}</p>
+              <p className="mt-3 text-sm">
+                Call / WhatsApp{" "}
+                <a
+                  href={site.phoneTel}
+                  className="text-white underline-offset-4 hover:underline"
+                >
+                  {site.phoneDisplay}
+                </a>
+              </p>
+              <p className="mt-3 text-sm">Completion {site.completion}</p>
+            </div>
+            <div className="max-w-xl text-xs leading-relaxed">
+              <p className="text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                RERA registration details
+              </p>
+              <p className="mt-3 text-white">
+                Authorized Channel Partner: {site.agentName} (Founder:{" "}
+                {site.agentFounder})
+              </p>
+              <p className="mt-2">
+                Agent K-RERA Registration No.: {site.agentRera}
+              </p>
+              <p className="mt-1">
+                Project K-RERA Registration No.: {site.rera}
+              </p>
+              <p className="mt-1">
+                Official K-RERA Website:{" "}
+                <a
+                  href={site.reraUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-4 hover:text-white"
+                >
+                  {site.reraUrl}
+                </a>
+              </p>
+              <p className="mt-3">Developer CIN {site.cin}</p>
+            </div>
           </div>
-          <div className="max-w-md text-xs leading-relaxed">
-            <p>{site.disclaimer}</p>
-            <p className="mt-3 text-white">{site.agentName}</p>
-            <p className="mt-1">
-              RERA Agent {site.agentRera}. {site.agentReraValid}.
+
+          <div className="max-w-4xl space-y-3 border-t border-white/10 pt-8 text-xs leading-relaxed">
+            <p>
+              <span className="text-white">Disclaimer:</span> {site.disclaimer}
             </p>
-            <p className="mt-3">CIN {site.cin}</p>
+            {site.disclaimerExtra.map((paragraph) => (
+              <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+            ))}
+            <p className="pt-2">
+              <Link
+                href="/privacy"
+                className="underline underline-offset-4 hover:text-white"
+              >
+                Privacy Policy
+              </Link>
+              <span className="mx-2 text-white/30">|</span>
+              <Link
+                href="/terms"
+                className="underline underline-offset-4 hover:text-white"
+              >
+                Terms &amp; Conditions
+              </Link>
+            </p>
+            <p className="pt-2 text-white/50">
+              © 2026 {site.agentName}. All Rights Reserved.
+            </p>
+            <p className="font-medium text-white">{site.agentName}</p>
           </div>
         </div>
       </footer>

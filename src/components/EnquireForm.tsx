@@ -131,7 +131,7 @@ export function EnquireForm() {
             <option>3 BHK + DH</option>
             <option>4 BHK + DH</option>
             <option>Standard 4 BHK</option>
-            <option>3 BHK + Family Lounge + DH</option>
+            <option>4 BHK + Family Lounge</option>
             <option>4 BHK + Family Lounge + DH</option>
             <option>Site Visit</option>
             <option>Brochure</option>
