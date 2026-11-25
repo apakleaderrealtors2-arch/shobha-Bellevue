@@ -180,12 +180,94 @@
     }
   }
 
+  .chat-topic-hint {
+    animation: chat-topic-hint-in 0.45s ease both;
+  }
+
+  .chat-topic-ring {
+    animation: chat-topic-ring 2s ease-out 2;
+  }
+
+  .chat-topic-btn {
+    animation: chat-topic-btn-in 0.4s ease both;
+  }
+
+  .chat-topic-btn:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  .chat-topic-btn:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .chat-topic-btn:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+  .chat-topic-btn:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+  .chat-topic-btn:nth-child(5) {
+    animation-delay: 0.25s;
+  }
+
+  .chat-topic-btn.chat-topic-btn-pulse {
+    animation:
+      chat-topic-btn-in 0.4s ease both,
+      chat-topic-btn-pulse 1.8s ease-in-out 0.45s 2;
+    animation-delay: 0.05s, 0.45s;
+  }
+
+  @keyframes chat-topic-hint-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes chat-topic-ring {
+    0% {
+      transform: scale(0.92);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(1.18);
+      opacity: 0;
+    }
+  }
+
+  @keyframes chat-topic-btn-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes chat-topic-btn-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(42, 85, 83, 0);
+    }
+    45% {
+      box-shadow: 0 0 0 3px rgba(42, 85, 83, 0.28);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-loader-panel,
     .scroll-cue-enter,
     .scroll-cue-float,
     .scroll-ring,
-    .scroll-chevron {
+    .scroll-chevron,
+    .chat-topic-hint,
+    .chat-topic-ring,
+    .chat-topic-btn,
+    .chat-topic-btn-pulse {
       animation: none;
     }
 

@@ -151,18 +151,46 @@ export function SiteChatbot() {
                   </a>
                 );
               }
+              const isLatestTopics = index === messages.length - 1;
               return (
-                <div key={`topics-${index}`} className="flex flex-wrap gap-2">
-                  {topics.map((topic) => (
-                    <button
-                      key={topic.id}
-                      type="button"
-                      onClick={() => ask(topic)}
-                      className="rounded-full border border-line bg-white px-3 py-1.5 text-left text-[12px] text-ink transition hover:border-teal hover:text-teal"
-                    >
-                      {topic.label}
-                    </button>
-                  ))}
+                <div key={`topics-${index}`} className="w-full">
+                  <p
+                    className={`mb-2 text-[11px] font-medium tracking-wide text-teal uppercase ${
+                      isLatestTopics ? "chat-topic-hint" : ""
+                    }`}
+                  >
+                    Tap a question
+                  </p>
+                  <div className="relative">
+                    {isLatestTopics ? (
+                      <span
+                        aria-hidden
+                        className="chat-topic-ring pointer-events-none absolute -inset-2 rounded-2xl border-2 border-teal/45"
+                      />
+                    ) : null}
+                    <div className="relative flex flex-col gap-2">
+                      {topics.map((topic, topicIndex) => (
+                        <button
+                          key={topic.id}
+                          type="button"
+                          onClick={() => ask(topic)}
+                          className={`chat-topic-btn group flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-teal/35 bg-white px-3.5 py-2.5 text-left text-sm text-ink shadow-sm transition hover:border-teal hover:bg-teal/5 active:scale-[0.99] ${
+                            isLatestTopics && topicIndex === 0
+                              ? "chat-topic-btn-pulse"
+                              : ""
+                          }`}
+                        >
+                          <span>{topic.label}</span>
+                          <span
+                            aria-hidden
+                            className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-teal/10 text-teal transition group-hover:bg-teal group-hover:text-white"
+                          >
+                            <TapChevron />
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -182,6 +210,23 @@ export function SiteChatbot() {
         <span className="pr-0.5">{open ? "Close" : "Chat"}</span>
       </button>
     </div>
+  );
+}
+
+function TapChevron() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      className="h-3.5 w-3.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 6l6 6-6 6" />
+    </svg>
   );
 }
 
