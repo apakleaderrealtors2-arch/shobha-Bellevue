@@ -12,7 +12,6 @@ type Topic = {
 type Message =
   | { role: "bot"; text: string }
   | { role: "user"; text: string }
-  | { role: "topics" }
   | { role: "whatsapp"; topic?: string };
 
 const topics: Topic[] = [
@@ -43,11 +42,9 @@ const topics: Topic[] = [
   },
 ];
 
-function whatsappHref(topic?: string) {
-  const base =
-    `Hello, I would like to know more about ${site.name}.` +
-    (topic ? ` I asked about: ${topic}.` : "");
-  return `https://wa.me/919946450723?text=${encodeURIComponent(base)}`;
+function whatsappHref() {
+  const text = `Hi, I am interested to know more about ${site.name}.`;
+  return `https://wa.me/919946450723?text=${encodeURIComponent(text)}`;
 }
 
 const greeting =
@@ -57,31 +54,38 @@ export function SiteChatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: "bot", text: greeting },
-    { role: "topics" },
   ]);
-  const endRef = useRef<HTMLDivElement>(null);
+  const [highlightTopics, setHighlightTopics] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const answerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const container = scrollRef.current;
+    if (!container) return;
+    const answer = answerRef.current;
+    const top = answer ? Math.max(0, answer.offsetTop - 8) : container.scrollHeight;
+    container.scrollTo({ top, behavior: "smooth" });
   }, [messages, open]);
 
   const ask = (topic: Topic) => {
+    setHighlightTopics(false);
     setMessages((current) => [
-      ...current.filter((item) => item.role !== "topics"),
+      ...current,
       { role: "user", text: topic.label },
       { role: "bot", text: topic.answer },
       { role: "whatsapp", topic: topic.label },
-      { role: "topics" },
     ]);
   };
 
   const reset = () => {
-    setMessages([
-      { role: "bot", text: greeting },
-      { role: "topics" },
-    ]);
+    setMessages([{ role: "bot", text: greeting }]);
+    setHighlightTopics(true);
   };
+
+  const latestAnswerIndex = messages.findLastIndex(
+    (item, itemIndex) => item.role === "bot" && itemIndex > 0,
+  );
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-end p-4 sm:p-5">
@@ -115,12 +119,19 @@ export function SiteChatbot() {
             </div>
           </div>
 
-          <div className="flex max-h-[min(28rem,62vh)] flex-col gap-3 overflow-y-auto px-3 py-3">
+          <div
+            ref={scrollRef}
+            className="relative flex max-h-[min(16rem,36vh)] flex-col gap-3 overflow-y-auto px-3 py-3 sm:max-h-[min(18rem,40vh)]"
+          >
             {messages.map((message, index) => {
+              const isLatestAnswer =
+                message.role === "bot" && index === latestAnswerIndex;
+
               if (message.role === "bot") {
                 return (
                   <div
                     key={`bot-${index}`}
+                    ref={isLatestAnswer ? answerRef : undefined}
                     className="max-w-[92%] rounded-2xl rounded-tl-md bg-white px-3.5 py-2.5 text-sm leading-relaxed text-ink shadow-sm"
                   >
                     {message.text}
@@ -137,64 +148,59 @@ export function SiteChatbot() {
                   </div>
                 );
               }
-              if (message.role === "whatsapp") {
-                return (
-                  <a
-                    key={`wa-${index}`}
-                    href={whatsappHref(message.topic)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex w-fit items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-95"
-                  >
-                    <WhatsAppIcon />
-                    Continue on WhatsApp
-                  </a>
-                );
-              }
-              const isLatestTopics = index === messages.length - 1;
               return (
-                <div key={`topics-${index}`} className="w-full">
-                  <p
-                    className={`mb-2 text-[11px] font-medium tracking-wide text-teal uppercase ${
-                      isLatestTopics ? "chat-topic-hint" : ""
-                    }`}
-                  >
-                    Tap a question
-                  </p>
-                  <div className="relative">
-                    {isLatestTopics ? (
-                      <span
-                        aria-hidden
-                        className="chat-topic-ring pointer-events-none absolute -inset-2 rounded-2xl border-2 border-teal/45"
-                      />
-                    ) : null}
-                    <div className="relative flex flex-col gap-2">
-                      {topics.map((topic, topicIndex) => (
-                        <button
-                          key={topic.id}
-                          type="button"
-                          onClick={() => ask(topic)}
-                          className={`chat-topic-btn group flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-teal/35 bg-white px-3.5 py-2.5 text-left text-sm text-ink shadow-sm transition hover:border-teal hover:bg-teal/5 active:scale-[0.99] ${
-                            isLatestTopics && topicIndex === 0
-                              ? "chat-topic-btn-pulse"
-                              : ""
-                          }`}
-                        >
-                          <span>{topic.label}</span>
-                          <span
-                            aria-hidden
-                            className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-teal/10 text-teal transition group-hover:bg-teal group-hover:text-white"
-                          >
-                            <TapChevron />
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <a
+                  key={`wa-${index}`}
+                  href={whatsappHref()}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-fit items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-95"
+                >
+                  <WhatsAppIcon />
+                  Continue on WhatsApp
+                </a>
               );
             })}
-            <div ref={endRef} />
+          </div>
+
+          <div className="border-t border-line bg-sand px-3 py-3">
+            <p
+              className={`mb-2 text-[11px] font-medium tracking-wide text-teal uppercase ${
+                highlightTopics ? "chat-topic-hint" : ""
+              }`}
+            >
+              Tap a question
+            </p>
+            <div className="relative">
+              {highlightTopics ? (
+                <span
+                  aria-hidden
+                  className="chat-topic-ring pointer-events-none absolute -inset-2 rounded-2xl border-2 border-teal/45"
+                />
+              ) : null}
+              <div className="relative flex max-h-[min(12rem,28vh)] flex-col gap-2 overflow-y-auto">
+                {topics.map((topic, topicIndex) => (
+                  <button
+                    key={topic.id}
+                    type="button"
+                    onClick={() => ask(topic)}
+                    className={`chat-topic-btn group flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-teal/35 bg-white px-3.5 py-2.5 text-left text-sm text-ink shadow-sm transition hover:border-teal hover:bg-teal/5 active:scale-[0.99] ${
+                      highlightTopics && topicIndex === 0
+                        ? "chat-topic-btn-pulse"
+                        : ""
+                    }`}
+                  >
+                    <span>{topic.label}</span>
+                    <span
+                      aria-hidden
+                      className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-teal/10 text-teal transition group-hover:bg-teal group-hover:text-white"
+                    >
+                      <TapChevron />
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}
